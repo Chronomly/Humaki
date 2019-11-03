@@ -1,0 +1,14 @@
+{
+  "name": "humaki",
+  "version": "0.0.1",
+  "main": "src/index",
+  "repository": "https://github.com/Chronomly/Humaki.git",
+  "author": "Grey <chronomly@gmail.com>",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@chronomly/quickbot": "^1.0.2"
+  },
+  "scripts": {
+    "start": "node ."
+  }
+}
