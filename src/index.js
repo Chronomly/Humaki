@@ -1,24 +1,28 @@
-const QuickBot = require('@chronomly/quickbot');
-const config = require('./config.js');
-const client = new QuickBot({
-    owner: '251383432331001856',
-    token: config.TOKEN,
-    database: './database.json',
-    PREFIX: config.PREFIX,
-    disableAFK: true
+const Commando = require('discord.js-commando');
+const config = require('./config');
+const path = require('path');
+const sqlite = require('sqlite');
+
+const client = new Commando.Client({
+    owner: '251383432331001856'
 });
 
-client.on('message', (msg) => {
-    if(msg.author.bot) return;
-    let PREFIX = config.PREFIX
-    const args = msg.content/*.slice(prefix.length)*/.trim().split(/\s+/g);
-    const command = args.shift().toLowerCase();
-    switch (command) {
-        case `${PREFIX}setup` :
-            msg.reply('later:tm:')
-            break;
-        case `${PREFIX}submit` :
+client.setProvider(
+    sqlite.open(path.join(__dirname, 'settings.sqlite3')).then(db => new Commando.SQLiteProvider(db))
+).catch(console.error);
 
-            break;
-    }
-})
+client.registry
+    // Registers your custom command groups
+    // .registerGroups([
+    //     ['fun', 'Fun commands'],
+    //     ['some', 'Some group'],
+    //     ['other', 'Some other group']
+    // ])
+
+    // Registers all built-in groups, commands, and argument types
+    .registerDefaults()
+
+    // Registers all of your commands in the ./commands/ directory
+    .registerCommandsIn(path.join(__dirname, 'commands'));
+
+client.login(config.TOKEN);
